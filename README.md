@@ -1,7 +1,7 @@
-# Java Programs Index
+# Java Course Index
 
-| # | Unit / Subheading | Programs Included | Documentation Link |
-|---|-------------------|-------------------|--------------------|
+| # | Topic | Programs Included | Notes |
+|---|-------|-------------------|-------|
 | 1 | Unit 1: Control Statements | `ControlFlowDemo.java`, `AtmWithdrawalSystem.java` | [control-statements.md](01-introduction-to-java/control-statements.md) |
 | 2 | Unit 1: Looping | `LoopingDemo.java`, `ShoppingCartCheckout.java` | [looping.md](01-introduction-to-java/looping.md) |
 | 3 | Unit 1: Array | `ArrayBasicsDemo.java`, `StudentGradeTracker.java` | [array.md](01-introduction-to-java/array.md) |

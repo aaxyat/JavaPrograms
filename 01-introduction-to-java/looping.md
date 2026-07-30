@@ -1,41 +1,67 @@
 # Unit 1: Introduction to Java
 
-## Subheading: Looping
+## Looping Statements
 
-Looping statements allow a program to execute a block of code repeatedly as long as a specified condition remains `true`. Loops eliminate redundant code when processing collections, performing calculations, or handling repetitive user interaction.
-
-### Key Concepts
-1. **`for` Loop**: Ideal when the exact number of iterations is known beforehand (definite loops). Uses initialization, condition, and update expressions in a single line.
-2. **`while` Loop**: Best suited when the number of iterations depends on dynamic conditions (indefinite loops). Checks the condition *before* executing the loop body.
-3. **`do-while` Loop**: Similar to `while`, but guarantees that the loop body executes *at least once* because the condition is evaluated at the end.
-4. **Loop Control Statements**:
-   - `break`: Immediately exits the loop regardless of the condition.
-   - `continue`: Skips the remaining statements in the current iteration and jumps directly to the next iteration.
+Looping statements repeat a block of code while a specified condition evaluates to `true`. Loops eliminate repetitive code when processing arrays, performing mathematical iterations, or accepting user input until an exit command is given.
 
 ---
 
-## 1. Demo Program: Looping Basics
+### Core Concepts
 
-**Filename:** `LoopingDemo.java`
+#### 1. `for` Loop (Definite Iteration)
+- Best when you know the exact number of times a loop should run before starting.
+- Syntactically combines initialization, loop condition, and variable update into a single line:
+  ```java
+  for (initialization; condition; update) {
+      // Loop body
+  }
+  ```
+- **Execution Flow**: Runs initialization once → checks condition → runs body if true → executes update → checks condition again.
 
-### Source Code
+#### 2. `while` Loop (Pre-test Indefinite Iteration)
+- Best when the number of iterations depends on runtime events (such as user input).
+- Evaluates the condition **before** executing the loop body. If the condition starts as `false`, the body never runs.
+
+#### 3. `do-while` Loop (Post-test Indefinite Iteration)
+- Evaluates the condition **after** executing the body.
+- Guarantees the body executes **at least once**, making it suitable for menu displays where you want to show choices before checking if the user wants to quit.
+
+#### 4. Loop Control Statements
+- **`break`**: Exits the loop immediately, jumping control to the line after the loop's closing brace.
+- **`continue`**: Skips the remaining code inside the loop body for the current iteration and jumps directly to the next condition test / update step.
+
+---
+
+### Common Pitfalls
+
+1. **Infinite Loops**:
+   - Forgetting to update counter variables inside a `while` loop (e.g. omitting `count++`) causes the condition to remain `true` forever, freezing the program.
+2. **Off-by-One Errors**:
+   - Writing `i <= 5` when counting indices for a 5-element array (indices 0 through 4) causes an out-of-bounds error.
+3. **Placing a semicolon right after loop headers**:
+   - Writing `for (int i=0; i<5; i++);` defines an empty loop body. The code block beneath it runs only once *after* the empty loop finishes counting.
+
+---
+
+## 1. Demo: Basic Looping Structures
+
+### `LoopingDemo.java`
+
 ```java
 /**
- * Program: LoopingDemo.java
- * Teaches: Fundamental syntax and control flow of for, while, do-while, break, and continue.
- * Usage: Demonstrates counter-based iteration, condition-based iteration, and loop jumping.
+ * Demonstrates syntax for for, while, do-while, break, and continue.
  */
 public class LoopingDemo {
     public static void main(String[] args) {
         
-        // 1. For Loop Demo
+        // 1. For Loop
         System.out.println("=== 1. Standard For Loop (Counting 1 to 5) ===");
         for (int i = 1; i <= 5; i++) {
             System.out.println("Iteration: " + i);
         }
 
-        // 2. While Loop Demo with Continue
-        System.out.println("\n=== 2. While Loop (Print Even Numbers up to 10) ===");
+        // 2. While Loop with Continue
+        System.out.println("\n=== 2. While Loop (Even Numbers up to 10) ===");
         int count = 0;
         while (count < 10) {
             count++;
@@ -45,13 +71,13 @@ public class LoopingDemo {
             System.out.println("Even number: " + count);
         }
 
-        // 3. Do-While Loop Demo with Break
-        System.out.println("\n=== 3. Do-While Loop (Exit on target value) ===");
+        // 3. Do-While Loop with Break
+        System.out.println("\n=== 3. Do-While Loop (Exit on Target) ===");
         int num = 1;
         do {
             System.out.println("Processing value: " + num);
             if (num == 3) {
-                System.out.println("Target value 3 reached! Breaking loop.");
+                System.out.println("Target 3 reached. Exiting loop.");
                 break;
             }
             num++;
@@ -60,31 +86,39 @@ public class LoopingDemo {
 }
 ```
 
-### Code Explanation
-1. **`for` Loop (`int i = 1; i <= 5; i++`)**:
-   - Initializes `i` to `1`. Checks `i <= 5`. Runs `System.out.println`, then increments `i` by `1`. Stops when `i` reaches `6`.
-2. **`while` Loop with `continue` (`count < 10`)**:
-   - `count` is incremented on each iteration.
-   - The condition `count % 2 != 0` identifies odd numbers and executes `continue`, skipping the print statement and jumping to the next check.
-3. **`do-while` Loop with `break` (`num <= 5`)**:
-   - Executes the block first. When `num == 3`, the `break` statement halts the loop immediately, skipping remaining iterations (`num = 4` and `num = 5`).
+### Detailed Code Walkthrough
+
+1. **`for` Loop Counting**:
+   - `int i = 1`: Declares loop variable `i` set to 1.
+   - `i <= 5`: Checks if `i` is 5 or less.
+   - `i++`: Increments `i` by 1 after each loop body run. Prints iterations 1 through 5, then terminates when `i` becomes 6.
+
+2. **`while` Loop with `continue`**:
+   - `int count = 0;`: Starts counter at 0.
+   - `while (count < 10)`: Checks condition before entering loop.
+   - `count++;`: Increments counter right at the top of the loop body.
+   - `if (count % 2 != 0)`: Checks if the number is odd. If true, `continue;` skips `System.out.println(...)` and jumps to the `while (count < 10)` condition check. Only even numbers (2, 4, 6, 8, 10) are printed.
+
+3. **`do-while` Loop with `break`**:
+   - Runs `System.out.println("Processing value: " + num);` first.
+   - When `num` reaches `3`, `if (num == 3)` evaluates to true.
+   - `break;` terminates the loop immediately, skipping `num++` and bypassing subsequent checks for 4 and 5.
 
 ---
 
-## 2. Real-World Program: Shopping Cart & Checkout System
+## 2. Real-World Program: Supermarket Checkout System
 
-**Filename:** `ShoppingCartCheckout.java`
+### `ShoppingCartCheckout.java`
 
-### Source Code
 ```java
 import java.util.Scanner;
 
 /**
- * Program: ShoppingCartCheckout.java
- * Teaches: Using sentinel-controlled while loops for dynamic user input, running totals, and batch item processing.
- * Example Input/Output:
- *   Input prices: 25.50, 40.00, -1 (to stop)
- *   Output: Total Items: 2, Subtotal: $65.50, Total with Tax (8%): $70.74
+ * Sentinel-controlled checkout loop accumulating prices until the user inputs -1.
+ *
+ * Example:
+ *   Input: 25.50, 40.00, -1
+ *   Output: Total Items: 2, Subtotal: $65.50, Tax (8%): $5.24, Grand Total: $70.74
  */
 public class ShoppingCartCheckout {
     public static void main(String[] args) {
@@ -92,44 +126,39 @@ public class ShoppingCartCheckout {
 
         double subtotal = 0.0;
         int itemCounter = 0;
-        final double TAX_RATE = 0.08; // 8% Sales Tax
+        final double TAX_RATE = 0.08;
 
         System.out.println("==========================================");
         System.out.println("      SUPERMARKET CHECKOUT SYSTEM         ");
         System.out.println("==========================================");
         System.out.println("Enter item prices one by one.");
-        System.out.println("Enter -1 when you are finished scanning items.\n");
+        System.out.println("Enter -1 to complete checkout.\n");
 
-        // Sentinel-Controlled While Loop
         while (true) {
             System.out.print("Enter item #" + (itemCounter + 1) + " price ($): ");
             double price = scanner.nextDouble();
 
-            // Sentinel check (Exit condition)
             if (price == -1) {
                 System.out.println("\nFinishing scanning items...");
                 break;
             }
 
-            // Input Validation using simple guard
             if (price < 0) {
-                System.out.println("INVALID PRICE: Price cannot be negative! Item skipped.");
+                System.out.println("INVALID PRICE: Price cannot be negative. Item skipped.");
                 continue;
             }
 
-            // Accumulate running totals
             subtotal += price;
             itemCounter++;
             System.out.println("Added: $" + price + " | Current Subtotal: $" + subtotal);
         }
 
-        // Output summary using loops & conditional summary logic
         System.out.println("\n==========================================");
         System.out.println("             RECEIPT SUMMARY              ");
         System.out.println("==========================================");
 
         if (itemCounter == 0) {
-            System.out.println("No valid items scanned. Cart is empty!");
+            System.out.println("No valid items scanned. Cart is empty.");
         } else {
             double taxAmount = subtotal * TAX_RATE;
             double grandTotal = subtotal + taxAmount;
@@ -147,12 +176,17 @@ public class ShoppingCartCheckout {
 }
 ```
 
-### Code Explanation
-1. **Sentinel-Controlled Loop (`while (true)`)**:
-   - The loop runs continuously to accept an arbitrary number of items until the user inputs the sentinel value `-1`.
-2. **Sentinel Guard Clause (`price == -1`)**:
-   - When `-1` is entered, `break` triggers, immediately halting item entry and proceeding to receipt calculation.
-3. **Validation Guard (`price < 0`)**:
-   - Prevents invalid negative entries. `continue` skips the accumulator statements so invalid inputs don't corrupt `subtotal` or `itemCounter`.
-4. **Running Total Accumulation (`subtotal += price`)**:
-   - In each valid iteration, `price` is added to `subtotal` and `itemCounter` is incremented by `1`.
+### Detailed Code Walkthrough
+
+1. **Sentinel Loop Setup (`while (true)`)**:
+   - `while (true)` creates an intentional indefinite loop that runs until explicitly stopped by a `break` statement inside.
+   - `-1` serves as a **sentinel value**—a special input value used to signal the end of data entry.
+
+2. **Input Validation and Accumulation**:
+   - `if (price == -1)`: Checks if the user typed the sentinel value. If so, `break;` exits the loop.
+   - `if (price < 0)`: Checks for negative numbers. If typed by mistake, `continue;` skips `subtotal += price` and `itemCounter++`, asking for the next item price without corrupting checkout calculations.
+   - `subtotal += price;`: Shorthand for `subtotal = subtotal + price;`. Adds each valid item cost to the running subtotal.
+
+3. **Receipt Calculation**:
+   - Computes `taxAmount = subtotal * 0.08` and `grandTotal = subtotal + taxAmount`.
+   - Uses `System.out.printf("... $%.2f%n", ...)` to round dollar amounts to 2 decimal places.

@@ -1,35 +1,68 @@
 # Unit 1: Introduction to Java
 
-## Subheading: Class and Objects
+## Class and Objects
 
-Java is an Object-Oriented Programming (OOP) language built around **Classes** and **Objects**. Object-oriented design models real-world entities into modular, reusable software components.
-
-### Key Concepts
-1. **Class**: A user-defined blueprint or template that specifies the attributes (state/data fields) and methods (behavior/functions) common to all objects of that type.
-2. **Object**: An instance of a class allocated in heap memory. Objects encapsulate state and interact via methods.
-3. **Instantiation (`new` keyword)**: The process of creating an object instance in memory (e.g., `Car myCar = new Car();`).
-4. **Constructors**: Special methods invoked automatically during object creation to initialize object attributes.
-   - **Default Constructor**: Provided by Java automatically if no explicit constructor is defined.
-   - **Parameterized Constructor**: Accepts arguments to initialize custom instance state.
-5. **The `this` Keyword**: A reference variable pointing to the current object instance within a class method or constructor.
+**Object-Oriented Programming (OOP)** structures software around objects rather than functions or isolated procedures. In Java, **Classes** and **Objects** form the foundation of OOP design.
 
 ---
 
-## 1. Demo Program: Basic Class & Object Instantiation
+### Core Concepts
 
-**Filename:** `ClassAndObjectDemo.java`
+#### 1. What is a Class?
+- A **Class** is a user-defined blueprint or template. It defines:
+  - **State (Fields / Instance Variables)**: Data attributes that objects of this class hold.
+  - **Behavior (Methods)**: Functions that perform actions on the class fields.
+- Writing a class creates a new custom data type in Java.
 
-### Source Code
+#### 2. What is an Object?
+- An **Object** is a specific instance of a class stored in memory.
+- While a class defines the blueprint (e.g. `Student`), an object represents an actual entity built from that blueprint (e.g. `student1` with name `"Alice"` and GPA `3.85`).
+
+#### 3. Instantiation (`new` Keyword)
+- **`new`**: Allocates memory on the heap for a new object instance and invokes a constructor to initialize its fields.
+  ```java
+  Student s = new Student();
+  ```
+
+#### 4. Constructors & Overloading
+- A **Constructor** is a special method called automatically when an object is created using `new`.
+- Characteristics: Shares the **exact same name as the class** and has **no return type** (not even `void`).
+- **Default Constructor**: Takes no parameters. Set up automatically by Java if no constructor is written.
+- **Parameterized Constructor**: Accepts arguments to initialize custom instance state.
+- **Constructor Overloading**: Defining multiple constructors within the same class, differing in parameter lists.
+
+#### 5. The `this` Keyword
+- `this` refers to the **current object instance** executing the code.
+- Primary use case: Resolves naming collisions when constructor parameters share the exact same names as instance variables:
+  ```java
+  public Student(String name) {
+      this.name = name; // 'this.name' is the field, 'name' is the parameter
+  }
+  ```
+
+---
+
+### Common Pitfalls
+
+1. **Forgetting `new` when creating objects**:
+   - `Student s;` only creates an uninitialized reference variable pointing to `null`. Trying to call `s.displayInfo()` causes a `NullPointerException`. You must instantiate it: `s = new Student();`.
+2. **Adding a return type to a constructor**:
+   - Writing `public void Student()` turns the constructor into a regular method. Java will no longer invoke it during `new Student()`.
+3. **Losing default constructors after writing a custom constructor**:
+   - Once you write any parameterized constructor, Java stops providing the default zero-argument constructor automatically. If you still need `new Student()`, you must explicitly write a zero-argument constructor in your class.
+
+---
+
+## 1. Demo: Class Definition and Object Instantiation
+
+### `ClassAndObjectDemo.java`
+
 ```java
 /**
- * Program: ClassAndObjectDemo.java
- * Teaches: Defining classes, instance variables, parameterized constructors, methods, and creating multiple objects.
- * Usage: Demonstrates object creation, attribute initialization, and method calls.
+ * Demonstrates class creation, fields, constructor overloading, and method calls on objects.
  */
 
-// Class Definition (Blueprint)
 class Student {
-    // Instance Variables (Attributes)
     String name;
     int rollNumber;
     double gpa;
@@ -48,7 +81,6 @@ class Student {
         this.gpa = gpa;
     }
 
-    // Method to display student information
     public void displayInfo() {
         System.out.println("Student Name: " + name);
         System.out.println("Roll Number : " + rollNumber);
@@ -60,63 +92,61 @@ class Student {
 public class ClassAndObjectDemo {
     public static void main(String[] args) {
         
-        System.out.println("=== 1. Creating Object via Default Constructor ===");
+        System.out.println("=== 1. Object Created via Default Constructor ===");
         Student student1 = new Student();
         student1.displayInfo();
 
-        System.out.println("=== 2. Creating Objects via Parameterized Constructor ===");
+        System.out.println("=== 2. Objects Created via Parameterized Constructor ===");
         Student student2 = new Student("Alice Johnson", 101, 3.85);
         Student student3 = new Student("Bob Smith", 102, 3.60);
 
-        // Invoking object behaviors (methods)
         student2.displayInfo();
         student3.displayInfo();
     }
 }
 ```
 
-### Code Explanation
-1. **Class Declaration (`class Student`)**:
-   - Outlines the attributes (`name`, `rollNumber`, `gpa`) and behavioral methods (`displayInfo()`) for all student entities.
+### Detailed Code Walkthrough
+
+1. **Class Structure (`class Student`)**:
+   - Declares instance variables `name`, `rollNumber`, and `gpa`. Every instance of `Student` created will store its own copy of these fields.
+
 2. **Constructor Overloading**:
-   - `Student()` sets default fallback values.
-   - `Student(name, rollNumber, gpa)` uses `this` to resolve naming conflicts between parameters and instance variables.
-3. **Object Instantiation & Method Access (`student2.displayInfo()`)**:
-   - `new Student("Alice Johnson", 101, 3.85)` allocates memory for `student2` on the heap and executes constructor initialization.
-   - Invoking `.displayInfo()` prints the distinct attribute state of each individual object.
+   - `public Student()`: Zero-argument constructor assigning default fallback values (`"Unknown"`, `0`, `0.0`).
+   - `public Student(String name, int rollNumber, double gpa)`: Parameterized constructor. Uses `this.name = name;` to assign the incoming argument `name` to the instance variable `this.name`.
+
+3. **Instantiating Objects in `main`**:
+   - `Student student1 = new Student();`: Calls default constructor. `displayInfo()` outputs `"Unknown"`.
+   - `Student student2 = new Student("Alice Johnson", 101, 3.85);`: Allocates memory for `student2` and initializes fields with Alice's details.
 
 ---
 
-## 2. Real-World Program: Bank Account Management System
+## 2. Real-World Program: Bank Account Manager
 
-**Filename:** `BankAccountManager.java`
+### `BankAccountManager.java`
 
-### Source Code
 ```java
 import java.util.Scanner;
 
 /**
- * Program: BankAccountManager.java
- * Teaches: Real-world class modeling, state encapsulation, deposit/withdrawal methods, and account reporting.
- * Example Input/Output:
- *   Create Account for "Sarah Jenkins", Deposit: $500, Withdraw: $150
- *   Output: Transaction Successful. Current Balance: $350.00
+ * Bank account model featuring encapsulated fields, deposits, withdrawals, and balance reports.
+ *
+ * Example:
+ *   Create Account: "Sarah", Balance: $500.00
+ *   Withdraw: $150.00 -> New Balance: $350.00
  */
 
-// BankAccount Class
 class BankAccount {
     private String accountNumber;
     private String accountHolderName;
     private double balance;
 
-    // Parameterized Constructor
     public BankAccount(String accountNumber, String accountHolderName, double initialDeposit) {
         this.accountNumber = accountNumber;
         this.accountHolderName = accountHolderName;
         this.balance = (initialDeposit >= 0) ? initialDeposit : 0.0;
     }
 
-    // Deposit Method
     public void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
@@ -126,7 +156,6 @@ class BankAccount {
         }
     }
 
-    // Withdrawal Method
     public void withdraw(double amount) {
         if (amount <= 0) {
             System.out.println("ERROR: Withdrawal amount must be positive.");
@@ -138,7 +167,6 @@ class BankAccount {
         }
     }
 
-    // Display Account Summary
     public void printAccountSummary() {
         System.out.println("\n------------------------------------------");
         System.out.println("         ACCOUNT SUMMARY REPORT           ");
@@ -158,7 +186,6 @@ public class BankAccountManager {
         System.out.println("     BANK ACCOUNT CREATION & MANAGEMENT   ");
         System.out.println("==========================================");
 
-        // Prompting Account Details
         System.out.print("Enter Account Number (e.g. ACC-8849): ");
         String accNum = scanner.nextLine().trim();
 
@@ -168,11 +195,9 @@ public class BankAccountManager {
         System.out.print("Enter Initial Deposit Amount ($): ");
         double initDeposit = scanner.nextDouble();
 
-        // Instantiating BankAccount Object
         BankAccount userAccount = new BankAccount(accNum, holderName, initDeposit);
         userAccount.printAccountSummary();
 
-        // Interactive Operations
         boolean managing = true;
         while (managing) {
             System.out.println("\nSelect Action: 1. Deposit | 2. Withdraw | 3. View Summary | 4. Exit");
@@ -208,10 +233,13 @@ public class BankAccountManager {
 }
 ```
 
-### Code Explanation
-1. **Class Encapsulation (`BankAccount`)**:
-   - Bundles account data (`accountNumber`, `accountHolderName`, `balance`) together with behavior methods (`deposit()`, `withdraw()`, `printAccountSummary()`).
-2. **State Validation in Constructor**:
-   - Ensures `initialDeposit` cannot set a negative starting balance (`(initialDeposit >= 0) ? initialDeposit : 0.0`).
-3. **Behavior Execution (`userAccount.deposit()`, `userAccount.withdraw()`)**:
-   - Modifies object internal state safely with guard clauses preventing invalid negative transactions or overdrafts.
+### Detailed Code Walkthrough
+
+1. **Encapsulation with `private` Modifiers**:
+   - `private double balance;`: Prevents code outside `BankAccount` from modifying balance directly (e.g. `acc.balance = -999;`). External code must use controlled methods like `deposit()` or `withdraw()`.
+
+2. **Constructor Input Guarding**:
+   - `(initialDeposit >= 0) ? initialDeposit : 0.0`: Ternary operator checking if initial deposit is non-negative before setting starting balance.
+
+3. **Method Logic**:
+   - `withdraw(double amount)`: Checks two guard conditions (`amount <= 0` and `amount > balance`) before subtracting funds from `balance`.

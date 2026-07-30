@@ -1,11 +1,11 @@
 # Unit 1: Introduction to Java
 
-Welcome to Unit 1! This unit covers core foundational topics in Java programming, including conditional decision-making, iterative control flow, data structures, text manipulation, dynamic arrays, object-oriented fundamentals, inheritance hierarchy, polymorphism, collections framework, interfaces/packages, exception handling, and multi-threaded programming.
+This unit covers foundational concepts in Java, from basic control flow to object-oriented programming and multi-threading.
 
-## Subheadings & Reference Files
+## Index
 
-| # | Subheading | Programs Included | Reference File |
-|---|------------|-------------------|----------------|
+| # | Topic | Programs Included | Notes |
+|---|-------|-------------------|-------|
 | 1.1 | Control Statements | `ControlFlowDemo.java`, `AtmWithdrawalSystem.java` | [control-statements.md](control-statements.md) |
 | 1.2 | Looping | `LoopingDemo.java`, `ShoppingCartCheckout.java` | [looping.md](looping.md) |
 | 1.3 | Array | `ArrayBasicsDemo.java`, `StudentGradeTracker.java` | [array.md](array.md) |

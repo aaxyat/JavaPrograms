@@ -1,66 +1,87 @@
 # Unit 1: Introduction to Java
 
-## Subheading: Exception Handling
+## Exception Handling
 
-**Exception Handling** in Java provides a robust mechanism to manage runtime errors, ensuring that the normal flow of application execution is maintained rather than abruptly crashing.
-
-### Key Concepts
-1. **`try` Block**: Encloses code that might throw an exception.
-2. **`catch` Block**: Catches and handles specific exceptions thrown by the corresponding `try` block.
-3. **`finally` Block**: Executes cleanup code regardless of whether an exception occurred or was caught.
-4. **`throw` Keyword**: Explicitly triggers/throws an exception instance (e.g., `throw new IllegalArgumentException("Invalid value");`).
-5. **`throws` Keyword**: Declares in a method signature that the method may propagate specified checked exceptions upstream.
-6. **User-Defined (Custom) Exceptions**: Custom exception classes created by extending `Exception` (checked) or `RuntimeException` (unchecked).
+**Exception Handling** manages runtime errors so a program can recover or clean up gracefully instead of crashing abruptly when an unexpected condition occurs.
 
 ---
 
-## 1. Demo Program: Built-in & Custom Exception Handling
+### Core Concepts
 
-**Filename:** `ExceptionHandlingDemo.java`
+#### 1. The `try-catch-finally` Architecture
+- **`try` Block**: Wraps code that might throw an exception.
+- **`catch` Block**: Intercepts specific exception types thrown from the `try` block and executes recovery code.
+- **`finally` Block**: Executes cleanup statements (such as closing database connections or scanner streams) **unconditionally**, whether an exception occurred, was caught, or was not thrown at all.
 
-### Source Code
+#### 2. The `throw` vs. `throws` Keywords
+- **`throw` (Action)**: Used inside a method body to explicitly throw an exception instance:
+  ```java
+  throw new IllegalArgumentException("Age cannot be negative");
+  ```
+- **`throws` (Declaration)**: Used in a method signature to declare that the method might propagate checked exceptions to its caller:
+  ```java
+  public void readFile(String path) throws IOException { ... }
+  ```
+
+#### 3. User-Defined (Custom) Exceptions
+- You can create custom domain-specific exceptions by extending Java's built-in exception classes:
+  - **Checked Exceptions**: Extend `java.lang.Exception`. The compiler forces callers to handle or declare them.
+  - **Unchecked Exceptions**: Extend `java.lang.RuntimeException`. The compiler does not enforce explicit catch/throws syntax.
+
+---
+
+### Common Pitfalls
+
+1. **Catching generic `Exception` everywhere without specific handling**:
+   - Writing `catch (Exception e) {}` swallows all errors silently (including logic bugs), making debugging extremely difficult. Catch specific exception types first (`ArithmeticException`, `IOException`).
+2. **Order of multi-catch blocks**:
+   - Catching a parent class (`Exception`) before a subclass (`InvalidAgeException`) causes a compilation error because the subclass catch block becomes unreachable. Always list specific exceptions before general ones.
+3. **Omitting `finally` for resource cleanup**:
+   - Forgetting to close streams in `finally` (or using try-with-resources) can leave files locked or leak system resources if an exception halts normal execution before `.close()` is reached.
+
+---
+
+## 1. Demo: Built-in and Custom Exceptions
+
+### `ExceptionHandlingDemo.java`
+
 ```java
 /**
- * Program: ExceptionHandlingDemo.java
- * Teaches: try-catch-finally blocks, throw, throws, and creating user-defined exceptions.
- * Usage: Demonstrates catching ArithmeticException and throwing custom InvalidAgeException.
+ * Demonstrates try-catch-finally blocks, throw, throws, and user-defined exception handling.
  */
 
-// User-Defined (Custom) Exception Class
 class InvalidAgeException extends Exception {
     public InvalidAgeException(String message) {
-        super(message); // Pass message to Superclass Exception
+        super(message);
     }
 }
 
 public class ExceptionHandlingDemo {
 
-    // Method declaring potential exception using 'throws'
     public static void validateVoterAge(int age) throws InvalidAgeException {
         if (age < 18) {
-            // Explicitly triggering exception using 'throw'
-            throw new InvalidAgeException("Age " + age + " is below legal voting limit of 18!");
+            throw new InvalidAgeException("Age " + age + " is below the voting limit of 18.");
         }
         System.out.println("Voter eligibility verified for age: " + age);
     }
 
     public static void main(String[] args) {
         
-        // 1. Built-in ArithmeticException Handling (try-catch-finally)
+        // 1. Built-in ArithmeticException
         System.out.println("=== 1. Handling Built-in ArithmeticException ===");
         try {
             int numerator = 50;
             int denominator = 0;
-            int result = numerator / denominator; // Division by zero!
+            int result = numerator / denominator;
             System.out.println("Result: " + result);
         } catch (ArithmeticException e) {
-            System.out.println("CAUGHT EXCEPTION: Cannot divide by zero! Details: " + e.getMessage());
+            System.out.println("CAUGHT EXCEPTION: Cannot divide by zero. Message: " + e.getMessage());
         } finally {
-            System.out.println("FINALLY BLOCK: Cleanup completed for Division Demo.");
+            System.out.println("FINALLY BLOCK: Cleanup completed.");
         }
 
-        // 2. Custom User-Defined Exception Handling
-        System.out.println("\n=== 2. Handling User-Defined Custom Exception ===");
+        // 2. Custom Exception
+        System.out.println("\n=== 2. Handling Custom InvalidAgeException ===");
         int[] testAges = {22, 15};
 
         for (int age : testAges) {
@@ -77,34 +98,35 @@ public class ExceptionHandlingDemo {
 }
 ```
 
-### Code Explanation
-1. **User-Defined Exception (`class InvalidAgeException extends Exception`)**:
-   - Extends Java's `Exception` class to represent custom domain validation errors.
-2. **Explicit Exception Throwing (`throw new InvalidAgeException(...)`)**:
-   - `validateVoterAge` checks if `age < 18` and raises `InvalidAgeException` using `throw`.
-3. **Try-Catch-Finally Flow**:
-   - **`try`**: Encapsulates code where division or age checking occurs.
-   - **`catch`**: Catches specific exception types (`ArithmeticException` or `InvalidAgeException`).
-   - **`finally`**: Runs guaranteed cleanup statements unconditionally.
+### Detailed Code Walkthrough
+
+1. **Defining Custom Exception (`class InvalidAgeException extends Exception`)**:
+   - Inherits from `Exception`. Passing `message` to `super(message)` stores the error description inside the exception object.
+
+2. **Triggering Exception (`throw new InvalidAgeException(...)`)**:
+   - `validateVoterAge` checks `if (age < 18)`. If true, it instantiates `InvalidAgeException` and triggers it using `throw`.
+
+3. **Handling Flow in `main()`**:
+   - For `age = 22`: `validateVoterAge` prints eligibility cleanly.
+   - For `age = 15`: `validateVoterAge` throws `InvalidAgeException`. Control jumps to `catch (InvalidAgeException e)`, printing the custom error message.
+   - In both cases, the `finally` block runs right before the next iteration.
 
 ---
 
-## 2. Real-World Program: Online Banking Funds Transfer System
+## 2. Real-World Program: Online Banking Funds Transfer
 
-**Filename:** `OnlineBankingTransferSystem.java`
+### `OnlineBankingTransferSystem.java`
 
-### Source Code
 ```java
 import java.util.Scanner;
 
 /**
- * Program: OnlineBankingTransferSystem.java
- * Teaches: Building a fault-tolerant financial transfer system using custom exceptions (InsufficientFundsException, InvalidAccountException).
- * Example Input/Output:
- *   Transfer $1500 from Account with $1000 balance -> Throws InsufficientFundsException: Requested $1500.00 exceeds balance $1000.00
+ * Bank transfer application using custom InsufficientFundsException and InvalidAccountException classes.
+ *
+ * Example:
+ *   Transfer $1500 with $1000 balance -> Catches InsufficientFundsException.
  */
 
-// Custom Exception 1: Insufficient Funds
 class InsufficientFundsException extends Exception {
     private double currentBalance;
     private double requestedAmount;
@@ -120,7 +142,6 @@ class InsufficientFundsException extends Exception {
     }
 }
 
-// Custom Exception 2: Invalid Account Number
 class InvalidAccountException extends Exception {
     public InvalidAccountException(String message) {
         super(message);
@@ -129,32 +150,26 @@ class InvalidAccountException extends Exception {
 
 public class OnlineBankingTransferSystem {
 
-    // Simulates transferring money between accounts
     public static void executeTransfer(String sourceAcc, String destAcc, double amount, double currentBalance)
             throws InvalidAccountException, InsufficientFundsException {
 
-        // Validate Source Account Length
         if (sourceAcc == null || sourceAcc.length() != 8) {
-            throw new InvalidAccountException("INVALID ACCOUNT: Source account '" + sourceAcc + "' must be 8 digits long.");
+            throw new InvalidAccountException("INVALID ACCOUNT: Source account '" + sourceAcc + "' must be 8 digits.");
         }
 
-        // Validate Destination Account Length
         if (destAcc == null || destAcc.length() != 8) {
-            throw new InvalidAccountException("INVALID ACCOUNT: Destination account '" + destAcc + "' must be 8 digits long.");
+            throw new InvalidAccountException("INVALID ACCOUNT: Destination account '" + destAcc + "' must be 8 digits.");
         }
 
-        // Validate Transfer Amount against Balance
         if (amount > currentBalance) {
             throw new InsufficientFundsException(currentBalance, amount);
         }
 
-        // If all checks pass, complete transaction
         System.out.printf("TRANSACTION SUCCESSFUL: Transferred $%.2f from [%s] to [%s]%n", amount, sourceAcc, destAcc);
     }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         double senderBalance = 1000.00;
 
         System.out.println("==========================================");
@@ -172,7 +187,6 @@ public class OnlineBankingTransferSystem {
             System.out.print("Enter Transfer Amount ($): ");
             double transferAmount = scanner.nextDouble();
 
-            // Attempting transaction that might throw custom exceptions
             executeTransfer(senderAcc, recipientAcc, transferAmount, senderBalance);
 
         } catch (InvalidAccountException e) {
@@ -184,7 +198,7 @@ public class OnlineBankingTransferSystem {
             System.out.println("\n[UNEXPECTED ERROR] System encountered error: " + e.getMessage());
         } finally {
             System.out.println("\n------------------------------------------");
-            System.out.println("Banking Transaction Session Safely Closed.");
+            System.out.println("Banking Transaction Session Closed.");
             System.out.println("------------------------------------------");
             scanner.close();
         }
@@ -192,11 +206,10 @@ public class OnlineBankingTransferSystem {
 }
 ```
 
-### Code Explanation
-1. **Domain-Specific Custom Exceptions**:
-   - `InsufficientFundsException` tracks financial metadata (`currentBalance`, `requestedAmount`, `getDeficit()`).
-   - `InvalidAccountException` handles account format verification failures.
-2. **Multi-Catch Hierarchy**:
-   - Catch blocks are ordered from specific custom exceptions (`InvalidAccountException`, `InsufficientFundsException`) down to generic `Exception` fallback.
-3. **Transaction Safety**:
-   - Guard clauses throw exceptions before mutating any balance, preventing partial or corrupted transactions.
+### Detailed Code Walkthrough
+
+1. **Custom Metadata in Exceptions**:
+   - `InsufficientFundsException` stores `currentBalance` and `requestedAmount`, providing a helper method `getDeficit()` so caller catch blocks can calculate exact shortfalls.
+
+2. **Ordered Exception Handlers**:
+   - Catch blocks first handle specific domain errors (`InvalidAccountException` and `InsufficientFundsException`), providing tailored error messaging, before falling back to a general `Exception` block for unexpected system errors.

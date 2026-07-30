@@ -1,105 +1,120 @@
 # Unit 1: Introduction to Java
 
-## Subheading: Vector
+## Vector
 
-The `Vector` class in Java (`java.util.Vector`) implements a growable, dynamic array of objects. Unlike standard arrays with fixed size, a `Vector` expands automatically as elements are added. 
-
-### Key Concepts
-1. **Dynamic Resizing**: `Vector` grows its capacity automatically when the current storage limit is reached (doubles capacity by default unless a `capacityIncrement` is specified).
-2. **Synchronization (Thread-Safety)**: All legacy operations in `Vector` are synchronized, making it safe for concurrent multi-threaded access without external locking.
-3. **Size vs Capacity**:
-   - `size()`: Number of actual elements currently stored in the vector.
-   - `capacity()`: Total number of element slots allocated in memory before resizing is required.
-4. **Traversal**: Can be traversed using standard loops, enhanced for-loops, iterators, or legacy `Enumeration` (`elements()`).
+The `Vector` class (`java.util.Vector`) implements a dynamic, growable array of objects. Standard Java arrays have a fixed size set at allocation; a `Vector` expands or shrinks automatically as items are added or removed.
 
 ---
 
-## 1. Demo Program: Vector Operations & Capacity Dynamics
+### Core Concepts
 
-**Filename:** `VectorBasicsDemo.java`
+#### 1. Dynamic Resizing & Capacity Increment
+- **`size()`**: The actual count of items currently stored in the vector.
+- **`capacity()`**: The total memory slots allocated before `Vector` must reallocate a larger internal array.
+- **Expansion Logic**: When `size()` reaches `capacity()`, `Vector` creates a larger internal array and copies elements over. By default, it doubles its capacity unless a custom `capacityIncrement` was passed to the constructor (`new Vector<>(initialCapacity, capacityIncrement)`).
 
-### Source Code
+#### 2. Thread Synchronization
+- All core methods in `Vector` (such as `add()`, `remove()`, and `get()`) use the `synchronized` modifier.
+- This makes `Vector` safe to access concurrently across multiple threads without manual locking, though it introduces a slight performance overhead compared to un-synchronized structures like `ArrayList`.
+
+#### 3. Traversal Methods
+- **Enhanced For-Loop**: `for (String item : vector)`
+- **Standard Index Loop**: `for (int i = 0; i < vector.size(); i++)`
+- **Legacy `Enumeration`**: `Enumeration<String> e = vector.elements();`
+
+---
+
+### Common Pitfalls
+
+1. **Confusing `size()` with `capacity()`**:
+   - `size()` tells you how many elements are currently in the vector, while `capacity()` tells you how many slots are allocated in memory. Attempting to call `.get(5)` when `size()` is 3 throws an `ArrayIndexOutOfBoundsException` even if `capacity()` is 10.
+2. **Not using generics (`Vector<T>`)**:
+   - Declaring `Vector v = new Vector();` without generic type arguments treats elements as `Object`. You must cast items manually when retrieving them. Always specify the type: `Vector<String> v = new Vector<>();`.
+
+---
+
+## 1. Demo: Vector Operations and Capacity Growth
+
+### `VectorBasicsDemo.java`
+
 ```java
 import java.util.Vector;
 import java.util.Enumeration;
 
 /**
- * Program: VectorBasicsDemo.java
- * Teaches: Vector instantiation, dynamic resizing, size vs capacity, element access, and Enumeration traversal.
- * Usage: Demonstrates adding/removing elements and tracking vector capacity adjustments.
+ * Demonstrates Vector instantiation, dynamic capacity growth, element access, and Enumeration traversal.
  */
 public class VectorBasicsDemo {
     public static void main(String[] args) {
         
-        // 1. Instantiating Vector with Initial Capacity = 3, Capacity Increment = 2
+        // Initial capacity = 3, capacity increment = 2
         System.out.println("=== 1. Initializing Vector ===");
         Vector<String> vec = new Vector<>(3, 2);
 
         System.out.println("Initial Size    : " + vec.size());     // 0
         System.out.println("Initial Capacity: " + vec.capacity()); // 3
 
-        // 2. Adding Elements & Triggering Capacity Expansion
         System.out.println("\n=== 2. Adding Elements ===");
         vec.add("Alpha");
         vec.add("Beta");
         vec.add("Gamma");
         System.out.println("Size after 3 elements: " + vec.size() + " | Capacity: " + vec.capacity());
 
-        // Exceeding capacity trigger expansion (+2)
+        // Adding 4th element triggers expansion by +2
         vec.add("Delta");
         System.out.println("Size after 4 elements: " + vec.size() + " | Capacity: " + vec.capacity());
 
-        // 3. Element Access & Modification
         System.out.println("\n=== 3. Element Access ===");
         System.out.println("First Element: " + vec.firstElement());
         System.out.println("Last Element : " + vec.lastElement());
         System.out.println("Element at index 2: " + vec.get(2));
 
-        // 4. Legacy Traversal using Enumeration
-        System.out.println("\n=== 4. Traversing via Enumeration ===");
+        System.out.println("\n=== 4. Enumeration Traversal ===");
         Enumeration<String> en = vec.elements();
         while (en.hasMoreElements()) {
             System.out.println("Vector Item: " + en.nextElement());
         }
 
-        // 5. Element Removal
         vec.remove("Beta");
         System.out.println("\nAfter removing 'Beta', Size: " + vec.size());
     }
 }
 ```
 
-### Code Explanation
-1. **Capacity Tracking (`size()` vs `capacity()`)**:
-   - Initialized with capacity `3` and increment `2`. When the 4th element `"Delta"` is added, the vector automatically increases its capacity to `5` (`3 + 2`).
-2. **First / Last / Index Access (`firstElement()`, `lastElement()`, `get(2)`)**:
-   - Provides convenience methods to retrieve elements at specific structural positions.
-3. **Enumeration Traversal (`vec.elements()`)**:
-   - Demonstrates the legacy `Enumeration` interface (`hasMoreElements()`, `nextElement()`) designed specifically for `Vector`.
+### Detailed Code Walkthrough
+
+1. **Custom Capacity Initialization (`new Vector<>(3, 2)`)**:
+   - Sets starting capacity to `3` and capacity growth increment to `2`.
+   - Before adding elements, `vec.size()` is `0` and `vec.capacity()` is `3`.
+
+2. **Triggering Dynamic Reallocation**:
+   - Adding 3 items (`Alpha`, `Beta`, `Gamma`) fills all 3 allocated slots (`size = 3`, `capacity = 3`).
+   - Adding the 4th item (`Delta`) causes `Vector` to expand by its custom increment of `2`. `capacity()` increases from `3` to `5`.
+
+3. **Retrieval & Enumeration**:
+   - `firstElement()` and `lastElement()` access boundary elements directly.
+   - `vec.elements()` returns an `Enumeration`. `en.hasMoreElements()` tests if elements remain, and `en.nextElement()` fetches each element sequentially.
 
 ---
 
-## 2. Real-World Program: Office Print Job Spooler System
+## 2. Real-World Program: Office Print Job Spooler
 
-**Filename:** `PrintJobQueueManager.java`
+### `PrintJobQueueManager.java`
 
-### Source Code
 ```java
 import java.util.Vector;
 import java.util.Scanner;
 
 /**
- * Program: PrintJobQueueManager.java
- * Teaches: Building a thread-safe print job spooler using Vector for concurrent document queuing and processing.
- * Example Input/Output:
+ * Print job queue manager using Vector for document queuing and FIFO processing.
+ *
+ * Example:
  *   Add jobs: "Report.pdf", "Invoice.docx"
- *   Output: Processing Job: "Report.pdf", 1 job remaining in queue.
+ *   Output: Processing Job: "Report.pdf", 1 job remaining.
  */
 public class PrintJobQueueManager {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        // Synchronized Vector holding pending print document tasks
         Vector<String> printQueue = new Vector<>();
 
         System.out.println("==========================================");
@@ -118,7 +133,7 @@ public class PrintJobQueueManager {
             System.out.print("Select Option (1-5): ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -136,7 +151,6 @@ public class PrintJobQueueManager {
                     if (printQueue.isEmpty()) {
                         System.out.println("NOTICE: Print queue is currently empty.");
                     } else {
-                        // Process and remove the first document (FIFO order)
                         String jobToPrint = printQueue.remove(0);
                         System.out.println("PRINTING: Dispatching document '" + jobToPrint + "' to printer...");
                         System.out.println("Remaining Jobs in Queue: " + printQueue.size());
@@ -180,10 +194,11 @@ public class PrintJobQueueManager {
 }
 ```
 
-### Code Explanation
-1. **Thread-Safe Task Queue (`Vector<String> printQueue`)**:
-   - `Vector` provides built-in thread safety for concurrent document submissions and print processing.
-2. **First-In-First-Out (FIFO) Processing (`printQueue.remove(0)`)**:
-   - Removes the job at index `0`, simulating a queue where the oldest submitted document gets printed first.
-3. **Dynamic Queue Inspection & Cancellation (`remove(cancelDoc)`)**:
-   - Searches and removes specific document requests dynamically, updating queue order automatically.
+### Detailed Code Walkthrough
+
+1. **FIFO Queue Management**:
+   - `printQueue.add(docName)` appends new print jobs to the end of the vector.
+   - `printQueue.remove(0)` processes the oldest document at index `0` (First-In-First-Out queue behavior) and automatically shifts subsequent items left.
+
+2. **Searching & Removing Elements**:
+   - `printQueue.remove(cancelDoc)` searches the vector for a string matching `cancelDoc`. If found, it removes the element and returns `true`. If not found, it returns `false`.

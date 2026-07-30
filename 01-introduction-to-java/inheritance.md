@@ -1,38 +1,54 @@
 # Unit 1: Introduction to Java
 
-## Subheading: Inheritance
+## Inheritance
 
-**Inheritance** is a core Object-Oriented Programming pillar that allows a child class (subclass) to inherit attributes and methods from a parent class (superclass) using the `extends` keyword. It promotes code reusability and establishes hierarchical relationships.
-
-### Key Concepts
-1. **Superclass & Subclass**:
-   - **Superclass (Parent)**: The base class whose properties are inherited.
-   - **Subclass (Child)**: The derived class that inherits from the superclass and can add custom fields/methods.
-2. **Types of Inheritance Supported**:
-   - **Single Inheritance**: Class B extends Class A.
-   - **Multilevel Inheritance**: Class C extends Class B, which extends Class A.
-   - **Hierarchical Inheritance**: Classes B and C both extend Class A.
-   - *(Note: Multiple class inheritance is not supported in Java to prevent the Diamond Problem).*
-3. **The `super` Keyword**:
-   - `super()` calls the constructor of the parent class.
-   - `super.variable` or `super.method()` accesses superclass members hidden or overridden by the subclass.
-4. **Method Overriding (`@Override`)**: A subclass provides a specific implementation of a method already defined in its superclass with identical signature.
+**Inheritance** lets a child class (subclass) acquire fields and methods from a parent class (superclass) using the `extends` keyword. It forms hierarchical relationships and eliminates duplicate code across related classes.
 
 ---
 
-## 1. Demo Program: Inheritance Types & Method Overriding
+### Core Concepts
 
-**Filename:** `InheritanceBasicsDemo.java`
+#### 1. Superclass & Subclass
+- **Superclass (Parent Class)**: The base class that contains general attributes and methods shared by child entities.
+- **Subclass (Child Class)**: The specialized class that inherits members from the superclass using `extends`. It can add new fields/methods or override existing behavior.
 
-### Source Code
+#### 2. Supported Inheritance Types
+- **Single Inheritance**: A class extends one direct parent class (`B extends A`).
+- **Multilevel Inheritance**: A class extends a child class (`C extends B`, where `B extends A`). Class `C` inherits fields from both `B` and `A`.
+- **Hierarchical Inheritance**: Multiple child classes extend the same parent class (`B extends A` and `C extends A`).
+- **Why No Multiple Inheritance for Classes?**: Java does not allow a class to extend multiple parent classes (`C extends A, B`) to prevent the **Diamond Problem**—ambiguity over which parent method implementation to execute when both parents declare identical methods. Multiple behavior inheritance is handled via **Interfaces**.
+
+#### 3. The `super` Keyword
+- **`super()`**: Calls the parent class constructor. Must be the **very first statement** inside a child class constructor.
+- **`super.method()`**: Invokes a parent class method that was overridden in the child class.
+
+#### 4. Method Overriding (`@Override`)
+- Occurs when a subclass defines a method with the **exact same name, return type, and parameters** as a method in its superclass.
+- `@Override` annotation tells the compiler to check that the method matches a signature in the parent class, catching typos early.
+
+---
+
+### Common Pitfalls
+
+1. **Forgetting that private parent members are not directly accessible in subclasses**:
+   - `private` fields in a superclass belong exclusively to that superclass. Subclasses cannot access them directly unless the superclass provides `public` / `protected` getters or uses the `protected` modifier.
+2. **Not placing `super()` on line 1 of a subclass constructor**:
+   - Calling `super()` after initializing child fields causes a compilation error. Java requires the superclass part of an object to be constructed first.
+3. **Confusing Overloading with Overriding**:
+   - **Overloading**: Same method name, *different* parameters, within the *same* class (compile-time).
+   - **Overriding**: Same method name, *identical* parameters, across *parent-child* classes (runtime).
+
+---
+
+## 1. Demo: Inheritance Hierarchy and Method Overriding
+
+### `InheritanceBasicsDemo.java`
+
 ```java
 /**
- * Program: InheritanceBasicsDemo.java
- * Teaches: Superclass/subclass hierarchy, single and multilevel inheritance, super keyword, and method overriding.
- * Usage: Demonstrates attribute inheritance and polymorphic method execution.
+ * Demonstrates single and multilevel inheritance, constructor chaining with super(), and method overriding.
  */
 
-// Superclass (Parent)
 class Animal {
     String name;
 
@@ -45,12 +61,11 @@ class Animal {
     }
 }
 
-// Single Inheritance: Mammal extends Animal
 class Mammal extends Animal {
     boolean hasFur;
 
     public Mammal(String name, boolean hasFur) {
-        super(name); // Call Superclass Constructor
+        super(name);
         this.hasFur = hasFur;
     }
 
@@ -59,16 +74,14 @@ class Mammal extends Animal {
     }
 }
 
-// Multilevel Inheritance: Dog extends Mammal
 class Dog extends Mammal {
     String breed;
 
     public Dog(String name, boolean hasFur, String breed) {
-        super(name, hasFur); // Call Mammal Constructor
+        super(name, hasFur);
         this.breed = breed;
     }
 
-    // Method Overriding
     @Override
     public void makeSound() {
         System.out.println(name + " (" + breed + ") barks: Woof! Woof!");
@@ -90,33 +103,36 @@ public class InheritanceBasicsDemo {
 }
 ```
 
-### Code Explanation
-1. **Superclass Constructor Invocation (`super(name)`)**:
-   - `Mammal` uses `super(name)` to pass the `name` attribute to the `Animal` base class constructor.
-2. **Multilevel Extension (`Dog -> Mammal -> Animal`)**:
-   - `Dog` inherits all fields and methods from both `Mammal` (`hasFur`, `displayMammalInfo()`) and `Animal` (`name`).
-3. **Method Overriding (`@Override makeSound()`)**:
-   - `Dog` replaces the generic `Animal.makeSound()` behavior with specific barking functionality.
+### Detailed Code Walkthrough
+
+1. **Base Class `Animal`**:
+   - Defines state `name` and behavior `makeSound()`.
+
+2. **Constructor Chaining (`Mammal` and `Dog`)**:
+   - `Mammal` constructor calls `super(name);`, passing `name` up to `Animal`.
+   - `Dog` constructor calls `super(name, hasFur);`, passing both arguments up to `Mammal`.
+
+3. **Multilevel Inheritance & Overriding**:
+   - `Dog` object `myDog` inherits `displayMammalInfo()` from `Mammal` and `name` from `Animal`.
+   - Calling `myDog.makeSound()` executes the overridden barking version defined inside `Dog`, overriding the generic `Animal.makeSound()`.
 
 ---
 
-## 2. Real-World Program: Corporate Employee Payroll System
+## 2. Real-World Program: Employee Payroll System
 
-**Filename:** `EmployeePayrollSystem.java`
+### `EmployeePayrollSystem.java`
 
-### Source Code
 ```java
 import java.util.Scanner;
 
 /**
- * Program: EmployeePayrollSystem.java
- * Teaches: Modeling a real-world enterprise payroll hierarchy using inheritance (Employee -> FullTimeEmployee / ContractEmployee).
- * Example Input/Output:
+ * Enterprise payroll system modeling FullTimeEmployee and ContractEmployee subclasses under a shared Employee base.
+ *
+ * Example:
  *   Full-Time: Base $5000, Bonus $1000 -> Total: $6000.00
  *   Contract: $50/hr * 120 hrs -> Total: $6000.00
  */
 
-// Base Superclass
 class Employee {
     protected int empId;
     protected String name;
@@ -129,7 +145,7 @@ class Employee {
     }
 
     public double calculatePay() {
-        return 0.0; // Default implementation to be overridden
+        return 0.0;
     }
 
     public void printPayStub() {
@@ -144,7 +160,6 @@ class Employee {
     }
 }
 
-// Subclass 1: Full-Time Employee (Salaried + Bonus)
 class FullTimeEmployee extends Employee {
     private double monthlySalary;
     private double performanceBonus;
@@ -161,7 +176,6 @@ class FullTimeEmployee extends Employee {
     }
 }
 
-// Subclass 2: Contract Employee (Hourly Rate * Hours Worked)
 class ContractEmployee extends Employee {
     private double hourlyRate;
     private int hoursWorked;
@@ -186,7 +200,6 @@ public class EmployeePayrollSystem {
         System.out.println("      ENTERPRISE PAYROLL SYSTEM           ");
         System.out.println("==========================================");
 
-        // 1. Instantiate Full-Time Employee
         System.out.println("\n--- Full-Time Employee Entry ---");
         System.out.print("Enter ID: ");
         int ftId = scanner.nextInt();
@@ -200,7 +213,6 @@ public class EmployeePayrollSystem {
 
         FullTimeEmployee ftEmp = new FullTimeEmployee(ftId, ftName, "Engineering", salary, bonus);
 
-        // 2. Instantiate Contract Employee
         System.out.println("\n--- Contract Employee Entry ---");
         System.out.print("Enter ID: ");
         int ctId = scanner.nextInt();
@@ -214,7 +226,6 @@ public class EmployeePayrollSystem {
 
         ContractEmployee ctEmp = new ContractEmployee(ctId, ctName, "Consulting", rate, hours);
 
-        // Print Pay Stubs
         ftEmp.printPayStub();
         ctEmp.printPayStub();
 
@@ -223,11 +234,13 @@ public class EmployeePayrollSystem {
 }
 ```
 
-### Code Explanation
-1. **Superclass Abstraction (`Employee`)**:
-   - Encapsulates common employee metadata (`empId`, `name`, `department`) and shared behavior (`printPayStub()`).
-2. **Specialized Subclasses (`FullTimeEmployee` & `ContractEmployee`)**:
-   - `FullTimeEmployee` calculates compensation as `monthlySalary + performanceBonus`.
-   - `ContractEmployee` calculates compensation as `hourlyRate * hoursWorked`.
-3. **Polymorphic Method Execution**:
-   - Both subclasses override `calculatePay()`, allowing `printPayStub()` to compute distinct net pay figures seamlessly.
+### Detailed Code Walkthrough
+
+1. **Protected Fields (`protected int empId`)**:
+   - `protected` modifier allows child classes (`FullTimeEmployee`, `ContractEmployee`) to access `empId`, `name`, and `department` directly while blocking access from unrelated external classes.
+
+2. **Polymorphic Method Overriding**:
+   - Base `Employee` class provides a placeholder `calculatePay()` returning `0.0`.
+   - `FullTimeEmployee` overrides `calculatePay()` to compute `monthlySalary + performanceBonus`.
+   - `ContractEmployee` overrides `calculatePay()` to compute `hourlyRate * hoursWorked`.
+   - `printPayStub()` lives in the parent class `Employee`, but calling `ftEmp.printPayStub()` invokes `FullTimeEmployee.calculatePay()` dynamically.
