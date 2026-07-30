@@ -103,7 +103,7 @@ public class InheritanceBasicsDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Base Class `Animal`**:
    - Defines state `name` and behavior `makeSound()`.
@@ -234,7 +234,7 @@ public class EmployeePayrollSystem {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Protected Fields (`protected int empId`)**:
    - `protected` modifier allows child classes (`FullTimeEmployee`, `ContractEmployee`) to access `empId`, `name`, and `department` directly while blocking access from unrelated external classes.

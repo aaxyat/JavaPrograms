@@ -81,7 +81,7 @@ public class VectorBasicsDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Custom Capacity Initialization (`new Vector<>(3, 2)`)**:
    - Sets starting capacity to `3` and capacity growth increment to `2`.
@@ -194,7 +194,7 @@ public class PrintJobQueueManager {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **FIFO Queue Management**:
    - `printQueue.add(docName)` appends new print jobs to the end of the vector.

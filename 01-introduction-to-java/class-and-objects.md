@@ -106,7 +106,7 @@ public class ClassAndObjectDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Class Structure (`class Student`)**:
    - Declares instance variables `name`, `rollNumber`, and `gpa`. Every instance of `Student` created will store its own copy of these fields.
@@ -233,7 +233,7 @@ public class BankAccountManager {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Encapsulation with `private` Modifiers**:
    - `private double balance;`: Prevents code outside `BankAccount` from modifying balance directly (e.g. `acc.balance = -999;`). External code must use controlled methods like `deposit()` or `withdraw()`.

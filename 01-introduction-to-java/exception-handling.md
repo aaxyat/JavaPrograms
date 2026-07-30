@@ -98,7 +98,7 @@ public class ExceptionHandlingDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Defining Custom Exception (`class InvalidAgeException extends Exception`)**:
    - Inherits from `Exception`. Passing `message` to `super(message)` stores the error description inside the exception object.
@@ -206,7 +206,7 @@ public class OnlineBankingTransferSystem {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Custom Metadata in Exceptions**:
    - `InsufficientFundsException` stores `currentBalance` and `requestedAmount`, providing a helper method `getDeficit()` so caller catch blocks can calculate exact shortfalls.

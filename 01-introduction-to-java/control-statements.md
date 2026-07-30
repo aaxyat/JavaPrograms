@@ -82,7 +82,7 @@ public class ControlFlowDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Grade Evaluation with `if-else if-else`**:
    - `int score = 85;`: Creates an integer variable `score`.
@@ -161,7 +161,7 @@ public class AtmWithdrawalSystem {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Authentication Guard (`if (enteredPin != CORRECT_PIN)`)**:
    - Rejects wrong PINs immediately. Calling `return;` exits `main()`, stopping the user from reaching balance check code.

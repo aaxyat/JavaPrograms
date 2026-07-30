@@ -98,7 +98,7 @@ public class PolymorphismBasicsDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Compile-Time Resolution (`Calculator`)**:
    - `calc.add(5, 10)` matches `int add(int, int)`.
@@ -245,7 +245,7 @@ public class PaymentProcessingGateway {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Polymorphic Method Parameter (`executeCheckout(PaymentMethod payment, ...)` )**:
    - `executeCheckout` does not care whether `payment` is a `CreditCardPayment`, `PayPalPayment`, or `CryptoPayment`. It simply accepts any subclass of `PaymentMethod`.

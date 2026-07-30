@@ -105,7 +105,7 @@ public class CollectionsBasicsDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **`List` Behavior**:
    - `cities.add("London")` adds `"London"` a second time. `ArrayList` maintains insertion order and retains both duplicates.
@@ -233,7 +233,7 @@ public class LibraryCatalogManager {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Combining Collections**:
    - `bookCatalog` (`List`): Holds available inventory.

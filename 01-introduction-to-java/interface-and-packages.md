@@ -108,7 +108,7 @@ public class InterfaceAndPackageDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Multiple Interface Implementation (`implements Resizable, Printable`)**:
    - `DocumentImage` promises to fulfill the contracts of both `Resizable` (by defining `resize()`) and `Printable` (by defining `printDetails()`).
@@ -220,7 +220,7 @@ public class CloudNotificationService {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Decoupled Architecture**:
    - `CloudNotificationService` operates on `List<NotificationChannel>`, storing `EmailNotifier`, `SmsNotifier`, and `PushNotifier` objects together.

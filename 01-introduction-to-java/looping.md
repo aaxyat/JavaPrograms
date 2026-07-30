@@ -86,7 +86,7 @@ public class LoopingDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **`for` Loop Counting**:
    - `int i = 1`: Declares loop variable `i` set to 1.
@@ -176,7 +176,7 @@ public class ShoppingCartCheckout {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Sentinel Loop Setup (`while (true)`)**:
    - `while (true)` creates an intentional indefinite loop that runs until explicitly stopped by a `break` statement inside.

@@ -136,7 +136,7 @@ public class MultithreadingBasicsDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Instantiation (`new WorkerThread(...)`)**:
    - `thread1.getState()` returns `NEW` because `.start()` has not been invoked yet.
@@ -269,7 +269,7 @@ public class TicketBookingSystem {
 }
 ```
 
-### Detailed Synchronization Walkthrough
+### Explanation
 
 1. **Race Condition Prevention (`synchronized boolean bookSeats(...)`)**:
    - If `Alice` and `Bob` check `availableSeats` (currently `3`) at the exact same microsecond without `synchronized`, both threads see `3 >= 2` as `true` and both proceed to deduct 2 seats (`3 - 2 - 2 = -1`), corrupting system state with an overbooking bug.

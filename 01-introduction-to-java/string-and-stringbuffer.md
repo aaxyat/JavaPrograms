@@ -93,7 +93,7 @@ public class StringVsStringBufferDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Immutability Behavior**:
    - `str1.concat(" World")` leaves `str1` unchanged as `"Hello"`. The resulting combined string `"Hello World"` is assigned to new variable `str2`.
@@ -180,7 +180,7 @@ public class TextSanitizerAndFormatter {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Input Sanitization**:
    - `rawUsername.trim()` strips whitespace from both ends of the input.

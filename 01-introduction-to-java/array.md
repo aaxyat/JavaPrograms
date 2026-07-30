@@ -96,7 +96,7 @@ public class ArrayBasicsDemo {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **1D Array Loop (`for (int i = 0; i < numbers.length; i++)`)**:
    - Starts `i` at 0 and stops when `i` reaches `numbers.length` (5).
@@ -195,7 +195,7 @@ public class StudentGradeTracker {
 }
 ```
 
-### Detailed Code Walkthrough
+### Explanation
 
 1. **Dynamic Memory Allocation (`new double[totalStudents]`)**:
    - Reads `totalStudents` from user input at runtime and allocates an array of that exact length.
