@@ -6,8 +6,8 @@ This unit covers Java Network Socket Programming across TCP and UDP protocols, I
 
 | # | Topic | Programs Included | Notes |
 |---|-------|-------------------|-------|
-| 6.1 | Overview of Socket Programming | `NetworkAddressResolverDemo.java`, `PortScannerAuditor.java` | [overview-of-socket-programming.md](overview-of-socket-programming.md) |
-| 6.2 | Introduction of APIs Related to Socket Programming | `InetAddressApiDemo.java`, `NetworkInterfaceAuditor.java` | [introduction-of-apis-related-to-socket-programming.md](introduction-of-apis-related-to-socket-programming.md) |
-| 6.3 | Server Side Programming [TCP and UDP] | `TcpAndUdpServerDemo.java`, `MultiThreadedEchoServer.java` | [server-side-programming.md](server-side-programming.md) |
-| 6.4 | Client Side Programming [TCP and UDP] | `TcpAndUdpClientDemo.java`, `InteractiveChatClient.java` | [client-side-programming.md](client-side-programming.md) |
-| 6.5 | Sample Programs | `ChatServer.java`, `ChatClient.java`, `FileServer.java`, `FileClient.java`, `UdpHeartbeatServer.java`, `UdpHeartbeatClient.java`, `MiniHttpWebServer.java` | [sample-programs.md](sample-programs.md) |
+| 6.1 | Overview of Socket Programming | `NetworkAddressResolverDemo.java`, `PortScannerAuditor.java` | [6.1-overview-of-socket-programming.md](6.1-overview-of-socket-programming.md) |
+| 6.2 | Introduction of APIs Related to Socket Programming | `InetAddressApiDemo.java`, `NetworkInterfaceAuditor.java` | [6.2-introduction-of-apis-related-to-socket-programming.md](6.2-introduction-of-apis-related-to-socket-programming.md) |
+| 6.3 | Server Side Programming [TCP and UDP] | `TcpAndUdpServerDemo.java`, `MultiThreadedEchoServer.java` | [6.3-server-side-programming.md](6.3-server-side-programming.md) |
+| 6.4 | Client Side Programming [TCP and UDP] | `TcpAndUdpClientDemo.java`, `InteractiveChatClient.java` | [6.4-client-side-programming.md](6.4-client-side-programming.md) |
+| 6.5 | Sample Programs | `ChatServer.java`, `ChatClient.java`, `FileServer.java`, `FileClient.java`, `UdpHeartbeatServer.java`, `UdpHeartbeatClient.java`, `MiniHttpWebServer.java` | [6.5-sample-programs.md](6.5-sample-programs.md) |
